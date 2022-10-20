@@ -63,3 +63,46 @@ read only:
     * create with `docker network create <name>`
     * run all containers inside network
     * use container name as host for any urls/requests
+
+## Compose
+
+Commands:
+* `docker-compose up` : run a docker compose file
+* `docker-compose down` : tear down a docker compose environment + containers
+* `docker-compose run <service> <command>` : run service from compose file and exec the command
+
+file name: `docker-compose.yaml`
+
+File Structure
+* `version:` string version number of docker compose
+* `services:` services to run, keyed by name
+  * `image:` image to use
+  * `build:` instructions for image build. Can be just file path to build dir, or more complex using other properties
+  * `ports:` ports to expose
+  * `volumes:` volumes to create / attach
+  * `env_file:` env file to use
+  * `depends_on:`: dependencies on other services
+  * `stdin_open:` open stdin - boolean
+  * `tty:` interactive shell - boolean
+* `volumes`:
+  * list of named volumes - must include them all, with name followed by colon, e.g.
+```yaml
+volumes:
+  data:
+  logs-backend:
+  logs-frontend:
+```
+
+## running commands
+
+* run a container with a specific environment to exec your own commands
+* ways to run commands:
+  * `docker run -it <image> <command>`
+  * `docker run -it -d <image> && docker exec -it <container> <command>`
+  * `docker-compose run <service> <command>` : run service from compose file and exec the command
+* run container with bind mount and exec commands to create / edit files on host machine:
+  * `docker run -it -v <bind-mount:path-mapping> <image> <command>`
+* `ENTRYPOINT` in docker file - specify an executable to run all commands with - restricts commands that can be run, by prepending the executable
+
+### Entry point vs CMD
+cmd is overwritten by docker run commands, entry point is prepended to docker run commands
