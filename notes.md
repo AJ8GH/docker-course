@@ -106,3 +106,8 @@ volumes:
 
 ### Entry point vs CMD
 cmd is overwritten by docker run commands, entry point is prepended to docker run commands
+
+## Deployments
+
+* Don't use bind-mounts in production
+
